@@ -1,11 +1,12 @@
 <script lang="ts">
 	import Slide from '$lib/components/Slide.svelte';
+	import { base } from '$app/paths';
 </script>
 
 <Slide>
 	<div class="intro-content">
 		<h1 class="text-md font-bold">Este es Javier Milei en el Council de las Americas de 2026</h1>
-		<video class="intro-video" src="/assets/natalidad-intro.mp4" autoplay muted loop playsinline
+		<video class="intro-video" src={`${base}/assets/natalidad-intro.mp4`} autoplay muted loop playsinline
 		></video>
 	</div>
 </Slide>
