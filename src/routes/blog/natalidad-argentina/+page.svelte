@@ -10,36 +10,44 @@
 
 	let reveal: HTMLDivElement;
 	let deck = $state<RevealApi>();
+	let mobile = $state(false);
+
+	const initializeReveal = () => {
+		if (mobile || deck || !reveal) return;
+		deck = new Reveal(reveal, {
+			width: window.innerWidth,
+			height: reveal.clientHeight,
+			margin: 0,
+			hash: true,
+			controls: true,
+			progress: true,
+			transition: 'slide',
+			transitionSpeed: 'slow'
+		});
+		deck.initialize();
+	};
+
+	const destroyReveal = () => {
+		deck?.destroy();
+		deck = undefined;
+	};
+
 	const handleResize = () => {
-		requestAnimationFrame(() => {
-			if (!deck || !reveal) return;
+		mobile = window.matchMedia('(max-width: 700px)').matches;
+		if (mobile) {
+			destroyReveal();
+		} else if (deck) {
 			deck.configure({ width: window.innerWidth, height: reveal.clientHeight });
 			deck.layout();
-		});
+		} else {
+			initializeReveal();
+		}
 	};
 
 	onMount(() => {
-		const waitForSlides = () => {
-			const sections = reveal?.querySelectorAll('.slides > section');
-			if (sections && sections.length > 0) {
-				deck = new Reveal(reveal, {
-					width: window.innerWidth,
-					height: reveal.clientHeight,
-					margin: 0,
-					hash: true,
-					controls: true,
-					progress: true,
-					transition: 'slide',
-					transitionSpeed: 'slow'
-				});
-				deck.initialize();
-				window.addEventListener('resize', handleResize);
-				handleResize();
-			} else {
-				requestAnimationFrame(waitForSlides);
-			}
-		};
-		requestAnimationFrame(waitForSlides);
+		mobile = window.matchMedia('(max-width: 700px)').matches;
+		requestAnimationFrame(initializeReveal);
+		window.addEventListener('resize', handleResize);
 	});
 
 	onDestroy(() => {
@@ -67,5 +75,40 @@
 		height: calc(100dvh - 72px);
 		min-height: 420px;
 		width: 100vw;
+	}
+
+	@media (max-width: 700px) {
+		.reveal {
+			display: block !important;
+			height: auto;
+			min-height: 0;
+			overflow: visible !important;
+		}
+
+		.reveal :global(.slides) {
+			position: static !important;
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+			width: 100% !important;
+			height: auto;
+			overflow: visible !important;
+			transform: none !important;
+		}
+
+		.reveal :global(.slides > section) {
+			position: relative;
+			display: flex !important;
+			visibility: visible !important;
+			width: 100%;
+			height: auto !important;
+			min-height: calc(100dvh - 72px);
+			transform: none !important;
+		}
+
+		.reveal :global(.controls),
+		.reveal :global(.progress) {
+			display: none;
+		}
 	}
 </style>

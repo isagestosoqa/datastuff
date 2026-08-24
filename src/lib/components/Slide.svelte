@@ -32,8 +32,18 @@
 	}
 
 	@media (max-width: 700px) {
+		section {
+			height: auto;
+			min-height: calc(100dvh - 72px);
+		}
+
 		.slide-inner {
+			position: relative;
+			inset: auto;
+			height: auto;
+			min-height: calc(100dvh - 72px);
 			padding: 1rem;
+			overflow: visible;
 		}
 	}
 </style>
