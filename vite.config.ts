@@ -18,7 +18,7 @@ export default defineConfig({
 			}),
 
 			paths: {
-				base: process.env.NODE_ENV === 'production' ? '/svelte-course' : ''
+				base: process.env.NODE_ENV === 'production' ? '/datastuff' : ''
 			}
 		})
 	]
