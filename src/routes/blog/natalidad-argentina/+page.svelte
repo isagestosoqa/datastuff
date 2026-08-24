@@ -78,11 +78,20 @@
 	}
 
 	@media (max-width: 700px) {
+		:global(html),
+		:global(body) {
+			height: auto !important;
+			min-height: 100%;
+			overflow-x: hidden !important;
+			overflow-y: auto !important;
+		}
+
 		.reveal {
 			display: block !important;
 			height: auto;
 			min-height: 0;
 			overflow: visible !important;
+			touch-action: pan-y;
 		}
 
 		.reveal :global(.slides) {
@@ -102,7 +111,7 @@
 			visibility: visible !important;
 			width: 100%;
 			height: auto !important;
-			min-height: calc(100dvh - 72px);
+			min-height: 0;
 			transform: none !important;
 		}
 

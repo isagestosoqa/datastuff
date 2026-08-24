@@ -41,8 +41,8 @@
 			position: relative;
 			inset: auto;
 			height: auto;
-			min-height: calc(100dvh - 72px);
-			padding: 1rem;
+			min-height: 0;
+			padding: 2rem 1rem;
 			overflow: visible;
 		}
 	}
