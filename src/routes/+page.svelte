@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-	<title>Notas</title>
+	<title>Data Stuff</title>
 </svelte:head>
 
 <main class="mx-auto max-w-300 px-4 py-8 sm:px-6 lg:px-8">

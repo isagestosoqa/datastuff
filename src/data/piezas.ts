@@ -14,10 +14,21 @@ export const piezas: Piece[] = [
 		id: 'natalidad-argentina',
 		href: '/blog/natalidad-argentina',
 		title: '¿Solo en Argentina cae la natalidad?',
-		category: 'Datos',
+		category: '',
 		blurb: 'Compará cómo fluctuó en los últimos 50 años la natalidad en el mundo.',
 		author: 'Isabel Gestoso',
 		date: '2026-08-20'
 	}
+	
+/* 	{
+		id: 'sufragio-femenino',
+		href: '/blog/sufragio-femenino',
+		title: '¿Qué tanto sabes del sufragio femenino?',
+		category: '',
+		blurb: 'Vení, animate.',
+		author: 'Isabel Gestoso',
+		date: '2026-08-20'
+	} */
 	// cada pieza nueva que arme
+
 ];

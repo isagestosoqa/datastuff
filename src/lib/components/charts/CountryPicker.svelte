@@ -14,11 +14,12 @@
 	let limitReached = $derived(selected.length >= max);
 
 	function addCountry(e: Event) {
-		const code = (e.target as HTMLSelectElement).value;
+		const select = e.currentTarget as HTMLSelectElement;
+		const code = select.value;
 		if (code && !selected.includes(code) && selected.length < max) {
 			selected = [...selected, code];
 		}
-		(e.target as HTMLSelectElement).value = '';
+		select.value = '';
 	}
 
 	function removeCountry(code: string) {
@@ -28,6 +29,7 @@
 
 <div class="mb-4 flex flex-wrap items-center gap-2 font-sans text-sm">
 	<select
+		aria-label="Agregar país al gráfico"
 		onchange={addCountry}
 		disabled={limitReached}
 		class="border-cc-current/30 bg-cc-bg rounded border px-2 py-1 text-xs tracking-wider uppercase disabled:cursor-not-allowed disabled:opacity-40"
@@ -46,6 +48,7 @@
 		{@const country = paises.find((p) => p.code === code)}
 		{#if country}
 			<button
+				type="button"
 				onclick={() => removeCountry(code)}
 				class="border-cc-current/30 rounded-full border px-3 py-1 text-xs tracking-wider uppercase hover:opacity-60"
 			>
@@ -60,3 +63,10 @@
 		</span>
 	{/if}
 </div>
+
+<style>
+	div {
+		justify-content: center;
+		width: 100%;
+	}
+</style>

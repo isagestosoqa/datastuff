@@ -1,30 +1,51 @@
 <script lang="ts">
-	import LineChart from '$lib/components/charts/LineChart.svelte';
-	import CountryPicker from '$lib/components/charts/CountryPicker.svelte';
+	import 'reveal.js/dist/reveal.css';
+	import Reveal from 'reveal.js';
+	import type { Api as RevealApi } from 'reveal.js';
+	import { onMount, onDestroy } from 'svelte';
+	import Presentation from './Presentation.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 
-	let selectedCodes: string[] = $state([]);
+	let reveal: HTMLDivElement;
+	let deck = $state<RevealApi>();
+	const handleResize = () => {
+		requestAnimationFrame(() => {
+			if (!deck || !reveal) return;
+			deck.configure({ width: window.innerWidth, height: reveal.clientHeight });
+			deck.layout();
+		});
+	};
 
-	const palette = ['#34d399', '#f472b6', '#60a5fa', '#fb923c', '#a3e635', '#e879f9'];
+	onMount(() => {
+		const waitForSlides = () => {
+			const sections = reveal?.querySelectorAll('.slides > section');
+			if (sections && sections.length > 0) {
+				deck = new Reveal(reveal, {
+					width: window.innerWidth,
+					height: reveal.clientHeight,
+					margin: 0,
+					hash: true,
+					controls: true,
+					progress: true,
+					transition: 'slide',
+					transitionSpeed: 'slow'
+				});
+				deck.initialize();
+				window.addEventListener('resize', handleResize);
+				handleResize();
+			} else {
+				requestAnimationFrame(waitForSlides);
+			}
+		};
+		requestAnimationFrame(waitForSlides);
+	});
 
-	let dynamicSeries = $derived(
-		selectedCodes.map((code, i) => {
-			const country = data.paises.find((p) => p.code === code)!;
-			return {
-				data: country.data,
-				color: palette[i % palette.length],
-				label: country.name
-			};
-		})
-	);
-
-	let allSeries = $derived([
-		{ data: data.natalidad.argentina, color: '#c084fc', label: 'Argentina' },
-		{ data: data.natalidad.mundo, color: '#fcd34d', label: 'Mundo' },
-		...dynamicSeries
-	]);
+	onDestroy(() => {
+		window.removeEventListener('resize', handleResize);
+		deck?.destroy?.();
+	});
 </script>
 
 <svelte:head>
@@ -35,26 +56,16 @@
 	/>
 </svelte:head>
 
-<article class="mx-auto mt-14 max-w-[70ch]">
-	<p class="mb-7 font-sans text-2xl leading-8 font-black">¿Solo en Argentina cae la natalidad?</p>
-	<p class="text-md mb-7 font-sans leading-8">
-		De los creadores de "mata bebés" y "podría ser ingeniero", el presidente Javier Milei nos trae
-		"Esa pasión por asesinar niños en el vientre de la madre también nos está costando caro en
-		términos de crecimiento, y ni les cuento en términos de sistema previsional". Esta semana, Milei
-		estuvo en el Council de las Américas donde volvió a vincular la caída de la natalidad con el
-		aborto legal. Sin embargo, los datos del Ministerio de Salud muestran que la natalidad cae desde
-		2014, mientras que la Ley de IVE se aprobó en diciembre de 2020. Pero además, la caída de la
-		natalidad tiene causas multifactoriales y sucede en todo el mundo.
-	</p>
+<div class="reveal" bind:this={reveal}>
+	<div class="slides">
+		<Presentation {data} />
+	</div>
+</div>
 
-	<CountryPicker paises={data.paises} bind:selected={selectedCodes} />
-
-	<LineChart
-		series={allSeries}
-		xAccessor={(d) => new Date(String(d.date))}
-		yAccessor={(d) => Number(d.value)}
-		yLabel="Nacimientos por cada 1.000 habitantes ↓"
-	/>
-
-	<p class="mb-7 font-sans text-lg leading-8"></p>
-</article>
+<style>
+	.reveal {
+		height: calc(100dvh - 72px);
+		min-height: 420px;
+		width: 100vw;
+	}
+</style>

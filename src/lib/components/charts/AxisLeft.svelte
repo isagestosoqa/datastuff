@@ -22,5 +22,3 @@
 </script>
 
 <g bind:this={axis} transform={`translate(${margin.left}, 0)`}></g>
-
-<g bind:this={axis} transform={`translate(${margin.left}, 0)`}></g>
