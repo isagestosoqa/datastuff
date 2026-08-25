@@ -16,11 +16,19 @@ export const piezas: Piece[] = [
 		title: '¿Solo en Argentina cae la natalidad?',
 		category: '',
 		blurb: 'Compará cómo fluctuó en los últimos 50 años la natalidad en el mundo.',
-		author: 'Isabel Gestoso',
-		date: '2026-08-20'
+		author: '',
+		date: ''
+	},
+	{
+		id: 'brecha-genero-nobel',
+		href: '/blog/brecha-genero-nobel',
+		title: 'Brecha de género edición Premios Nobel',
+		category: '',
+		blurb: '',
+		author: '',
+		date: ''
 	}
-	
-/* 	{
+	/* 	{
 		id: 'sufragio-femenino',
 		href: '/blog/sufragio-femenino',
 		title: '¿Qué tanto sabes del sufragio femenino?',
@@ -30,5 +38,4 @@ export const piezas: Piece[] = [
 		date: '2026-08-20'
 	} */
 	// cada pieza nueva que arme
-
 ];

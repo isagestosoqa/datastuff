@@ -1,0 +1,34 @@
+[
+  {
+    "decade":1900,
+    "female_winners":1
+  },
+  {
+    "decade":1930,
+    "female_winners":1
+  },
+  {
+    "decade":1940,
+    "female_winners":1
+  },
+  {
+    "decade":1970,
+    "female_winners":3
+  },
+  {
+    "decade":1980,
+    "female_winners":1
+  },
+  {
+    "decade":1990,
+    "female_winners":3
+  },
+  {
+    "decade":2000,
+    "female_winners":2
+  },
+  {
+    "decade":2010,
+    "female_winners":4
+  }
+]
